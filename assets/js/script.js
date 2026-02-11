@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // --- 1. GSAP Animations Setup ---
     gsap.registerPlugin(ScrollTrigger);
 
-    // Navbar Animation: Slide down dari atas
+    // Navbar Animation
     gsap.from("#navbar", {
         y: -100,
         opacity: 0,
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         ease: "power4.out"
     });
 
-    // Hero Content Animation: Muncul bertahap (Staggered)
+    // Hero Content Animation
     const tlHero = gsap.timeline();
     tlHero.from(".hero-badge", { y: 20, opacity: 0, duration: 0.6 })
           .from(".hero-title", { y: 30, opacity: 0, duration: 0.8 }, "-=0.4")
@@ -23,42 +23,93 @@ document.addEventListener("DOMContentLoaded", (event) => {
           .from(".hero-cta", { y: 20, opacity: 0, duration: 0.6 }, "-=0.4")
           .from(".hero-image", { x: 50, opacity: 0, duration: 1, ease: "back.out(1.7)" }, "-=0.8");
 
-    // Benefits Section Animation: Kartu muncul satu per satu saat di-scroll
-    gsap.from(".benefit-card", {
+    // --- NEW: Elegant Cards Staggered Animation & 3D Tilt ---
+    
+    // 1. Entrance Animation (Stagger)
+    gsap.from(".elegant-card", {
         scrollTrigger: {
             trigger: "#manfaat",
             start: "top 80%",
         },
-        y: 50,
+        y: 80,
         opacity: 0,
-        duration: 0.8,
+        duration: 1,
         stagger: 0.2,
-        ease: "power2.out"
+        ease: "power3.out"
     });
 
-    // Features Section Animation
-    gsap.from(".feature-item", {
-        scrollTrigger: {
-            trigger: "#fitur",
-            start: "top 75%",
-        },
-        x: -30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "power1.out"
-    });
+    // 2. 3D Tilt Effect on Hover (Desktop Only)
+    const elegantCards = document.querySelectorAll('.elegant-card');
+    if (window.matchMedia("(min-width: 768px)").matches) {
+        elegantCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -5; // Max rotation 5deg
+                const rotateY = ((x - centerX) / centerX) * 5;
+
+                gsap.to(card, {
+                    rotationX: rotateX,
+                    rotationY: rotateY,
+                    transformPerspective: 1000,
+                    ease: "power1.out",
+                    duration: 0.5
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    rotationX: 0,
+                    rotationY: 0,
+                    ease: "power3.out",
+                    duration: 0.5
+                });
+            });
+        });
+    }
+
+    // --- Bento Grid Spotlight & Stagger ---
+    const bentoGrid = document.getElementById('bento-grid');
+    if (bentoGrid) {
+        const bentoCards = bentoGrid.querySelectorAll('.bento-card');
+        
+        // Spotlight Effect
+        bentoGrid.addEventListener('mousemove', (e) => {
+            bentoCards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--x', `${x}px`);
+                card.style.setProperty('--y', `${y}px`);
+            });
+        });
+
+        // Stagger Animation
+        gsap.from(".bento-card", {
+            scrollTrigger: {
+                trigger: "#fitur",
+                start: "top 80%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out"
+        });
+    }
 });
 
-// --- 2. Mobile Menu Logic ---
-// Note: Kode hamburger menu lama telah dihapus karena diganti bottom navbar CSS-based
-
-// --- 3. Guest Book Demo Logic (LocalStorage) ---
+// --- 2. Guest Book Demo Logic (LocalStorage) ---
 const guestForm = document.getElementById('guestForm');
 const guestList = document.getElementById('guestList');
 const emptyState = document.getElementById('emptyState');
 
-// Load data saat aplikasi dimulai
 if (guestList) {
     loadGuests();
 }
@@ -78,18 +129,14 @@ if (guestForm) {
 
         const guest = { id: Date.now(), name, category, pax, time };
 
-        // Save to LocalStorage
         let guests = JSON.parse(localStorage.getItem('guestra_guests')) || [];
-        guests.unshift(guest); // Add to top
+        guests.unshift(guest); 
         localStorage.setItem('guestra_guests', JSON.stringify(guests));
 
-        // UI Feedback & Render
-        renderGuest(guest, true); // true = animate entry
+        renderGuest(guest, true); 
         
-        // Reset Form
         guestForm.reset();
         
-        // Simple toast notification (feedback tombol)
         const btnSubmit = guestForm.querySelector('button');
         const originalText = btnSubmit.innerHTML;
         btnSubmit.innerHTML = `<i class="fas fa-check"></i> Sukses!`;
@@ -116,19 +163,16 @@ function loadGuests() {
 }
 
 function renderGuest(guest, animate) {
-    // Remove empty state if exists
     if (document.getElementById('emptyState')) {
         document.getElementById('emptyState').remove();
     }
 
-    // Determine badge color
     let badgeColor = 'bg-blue-500';
     if(guest.category === 'VIP') badgeColor = 'bg-yellow-500';
     if(guest.category === 'Keluarga') badgeColor = 'bg-green-500';
     if(guest.category === 'Media') badgeColor = 'bg-purple-500';
 
     const div = document.createElement('div');
-    // Note: animate-new-item class can be added in CSS if preferred, or handled by GSAP below
     div.className = `bg-white/10 p-3 rounded-lg flex justify-between items-center border border-white/10`;
     
     div.innerHTML = `
@@ -148,7 +192,6 @@ function renderGuest(guest, animate) {
     `;
 
     if (animate) {
-        // GSAP animation for new item entering the DOM
         guestList.prepend(div);
         gsap.from(div, { x: -20, opacity: 0, duration: 0.5, ease: "back.out" });
     } else {
@@ -156,7 +199,6 @@ function renderGuest(guest, animate) {
     }
 }
 
-// Fungsi global agar bisa dipanggil via onclick di HTML
 window.clearData = function() {
     if(confirm('Hapus semua data tamu simulasi?')) {
         localStorage.removeItem('guestra_guests');

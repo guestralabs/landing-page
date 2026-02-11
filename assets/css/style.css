@@ -15,7 +15,7 @@
     padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Custom Scrollbar untuk tampilan lebih rapi */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -30,12 +30,10 @@
     background: #3b82f6;
 }
 
-/* AdSense Container Styles
-   Gunakan kelas ini jika Anda mengaktifkan iklan nanti di adsense_setup.txt
-*/
+/* AdSense Container Styles */
 .ad-slot-container {
-    background-color: #f8fafc; /* Slate-50 */
-    border: 1px dashed #cbd5e1; /* Slate-300 */
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,4 +41,57 @@
     margin: 2rem auto;
     overflow: hidden;
     border-radius: 0.5rem;
+}
+
+/* --- ELEGANT CARD STYLES --- */
+.elegant-card {
+    will-change: transform;
+    /* Efek 3D perspektif ditangani di JS */
+}
+
+/* --- BENTO GRID SPOTLIGHT EFFECT --- */
+.bento-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    /* Variabel ini akan diupdate via JS */
+    --x: 50%;
+    --y: 50%;
+}
+
+/* Efek Glow mengikuti mouse */
+.spotlight-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at var(--x) var(--y),
+        rgba(59, 130, 246, 0.08) 0%,
+        transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.bento-card:hover .spotlight-overlay {
+    opacity: 1;
+}
+
+.bento-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.15);
+}
+
+/* --- ANIMATION UTILS --- */
+@keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+}
+.animate-blob {
+    animation: blob 7s infinite;
+}
+.animation-delay-2000 {
+    animation-delay: 2s;
 }
