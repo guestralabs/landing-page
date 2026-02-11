@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Guestra - Solusi Buku Tamu Digital Cerdas</title>
+    <meta name="description" content="Guestra (Guest Extra) adalah platform buku tamu digital untuk event, pernikahan, dan bisnis dengan fitur QR Code dan manajemen tamu terintegrasi.">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    screens: {
+                        'lg': '1024px', // Breakpoint untuk switch ke Desktop View
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body class="text-slate-600 bg-white antialiased overflow-x-hidden pb-20 lg:pb-0">
+
+    <!-- Navbar Atas (Hanya tampil di Desktop / Layar Besar) -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300 top-0" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                        G
+                    </div>
+                    <span class="font-bold text-2xl text-slate-800 tracking-tight">Guestra</span>
+                </div>
+                
+                <!-- Desktop Menu (Hidden di Mobile/Tablet, Flex di Large Screen) -->
+                <div class="hidden lg:flex space-x-8 items-center">
+                    <a href="#manfaat" class="text-slate-600 hover:text-brand-600 font-medium transition nav-link">Manfaat</a>
+                    <a href="#fitur" class="text-slate-600 hover:text-brand-600 font-medium transition nav-link">Fitur</a>
+                    <a href="#demo" class="text-slate-600 hover:text-brand-600 font-medium transition nav-link">Live Demo</a>
+                    <a href="#contact" class="bg-brand-600 text-white px-6 py-2.5 rounded-full font-semibold shadow-lg hover:bg-brand-700 hover:shadow-brand-500/30 transition transform hover:-translate-y-0.5">
+                        Coba Gratis
+                    </a>
+                </div>
+                
+                <!-- Note: Tombol Hamburger dihapus total karena diganti Bottom Nav -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bottom Navigation Bar (Tampil di Mobile & Tablet / Layar < 1024px) -->
+    <nav class="fixed bottom-0 left-0 w-full z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 lg:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.05)] safe-area-pb">
+        <div class="grid grid-cols-5 h-16 items-center max-w-lg mx-auto">
+            <a href="#" class="flex flex-col items-center justify-center text-slate-400 hover:text-brand-600 active:text-brand-700 transition group h-full">
+                <i class="fas fa-home text-xl mb-1 group-hover:scale-110 transition-transform"></i>
+                <span class="text-[10px] font-medium">Beranda</span>
+            </a>
+            <a href="#manfaat" class="flex flex-col items-center justify-center text-slate-400 hover:text-brand-600 active:text-brand-700 transition group h-full">
+                <i class="fas fa-star text-xl mb-1 group-hover:scale-110 transition-transform"></i>
+                <span class="text-[10px] font-medium">Manfaat</span>
+            </a>
+            <a href="#fitur" class="flex flex-col items-center justify-center text-slate-400 hover:text-brand-600 active:text-brand-700 transition group h-full">
+                <i class="fas fa-th-large text-xl mb-1 group-hover:scale-110 transition-transform"></i>
+                <span class="text-[10px] font-medium">Fitur</span>
+            </a>
+            <a href="#demo" class="flex flex-col items-center justify-center text-slate-400 hover:text-brand-600 active:text-brand-700 transition group h-full">
+                <i class="fas fa-play-circle text-xl mb-1 group-hover:scale-110 transition-transform"></i>
+                <span class="text-[10px] font-medium">Demo</span>
+            </a>
+            <a href="#contact" class="flex flex-col items-center justify-center text-brand-600 hover:text-brand-800 transition group h-full relative">
+                 <div class="absolute -top-3 bg-brand-600 text-white rounded-full p-2 shadow-lg group-hover:-translate-y-1 transition transform border-4 border-white">
+                    <i class="fas fa-paper-plane text-sm"></i>
+                 </div>
+                <span class="text-[10px] font-medium mt-6">Hubungi</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-28 pb-10 lg:pt-40 lg:pb-28 overflow-hidden">
+        <div class="absolute top-0 right-0 -z-10 opacity-30 transform translate-x-1/3 -translate-y-1/4">
+            <svg viewBox="0 0 500 500" width="600" height="600" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="250" cy="250" r="250" fill="url(#paint0_radial_1_2)" fill-opacity="0.4"/>
+                <defs>
+                    <radialGradient id="paint0_radial_1_2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 250) rotate(90) scale(250)">
+                        <stop stop-color="#3B82F6"/>
+                        <stop offset="1" stop-color="#3B82F6" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
+                <div class="lg:col-span-6 text-center lg:text-left hero-content">
+                    <div class="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 font-semibold rounded-full text-sm mb-6 border border-brand-100 shadow-sm hero-badge">
+                        ✨ Solusi Event Modern & Canggih
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6 hero-title">
+                        Tingkatkan Pengalaman Tamu dengan <span class="text-brand-600">Guestra</span>
+                    </h1>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed hero-desc">
+                        Sistem buku tamu digital all-in-one. Percepat registrasi, cegah antrian, dan kelola data tamu secara akurat dengan teknologi QR Code. Cocok untuk pernikahan, seminar, hingga instansi.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start hero-cta">
+                        <a href="#demo" class="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl shadow-lg hover:bg-brand-700 hover:shadow-brand-500/40 transition transform hover:-translate-y-1">
+                            Mulai Demo Gratis
+                        </a>
+                        <a href="#fitur" class="px-8 py-4 bg-white text-slate-700 border border-slate-200 font-bold rounded-xl shadow-sm hover:bg-slate-50 hover:border-brand-200 transition flex items-center justify-center gap-2">
+                            <i class="fas fa-play-circle text-brand-600"></i> Lihat Video
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-6 mt-16 lg:mt-0 relative hero-image">
+                    <!-- Abstract Device Illustration -->
+                    <div class="relative rounded-2xl bg-slate-900 p-2 shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500">
+                        <div class="bg-slate-800 rounded-xl overflow-hidden relative aspect-[4/3]">
+                            <!-- Mock UI Header -->
+                            <div class="h-10 bg-slate-700 flex items-center px-4 space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <!-- Mock UI Body -->
+                            <div class="p-6 bg-slate-50 h-full flex flex-col items-center justify-center text-center">
+                                <div class="w-24 h-24 bg-brand-100 rounded-2xl mb-4 flex items-center justify-center">
+                                    <i class="fas fa-qrcode text-5xl text-brand-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-800">Scan untuk Masuk</h3>
+                                <p class="text-sm text-slate-500 mt-2">Selamat datang di Wedding of Romeo & Juliet</p>
+                                <div class="mt-6 w-full max-w-xs h-2 bg-slate-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-brand-500 w-3/4 animate-pulse"></div>
+                                </div>
+                                <p class="text-xs text-brand-600 mt-2 font-mono">Memproses data tamu...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Decorative Element -->
+                    <div class="absolute -bottom-10 -left-10 bg-white p-4 rounded-xl shadow-xl border border-slate-100 animate-bounce" style="animation-duration: 3s;">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-green-100 p-2 rounded-full text-green-600">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Status Check-in</p>
+                                <p class="font-bold text-slate-800">Berhasil Terdata</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AREA UNTUK SLOT IKLAN (Saat ini disembunyikan) -->
+    <!-- Lihat file adsense_setup.txt untuk mengaktifkan -->
+    <div id="adsense-slot-1" class="max-w-7xl mx-auto px-4 my-8"></div>
+
+    <!-- Benefits Section -->
+    <section id="manfaat" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 section-header">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Mengapa Guestra Pilihan Tepat?</h2>
+                <p class="text-slate-600 text-lg">Platform kami dirancang fleksibel untuk memenuhi kebutuhan berbagai jenis acara dan institusi.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Benefit 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100 benefit-card group">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl mb-6 group-hover:scale-110 transition">
+                        <i class="fas fa-glass-cheers"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Event Organizer</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Kelola ribuan tamu konser atau seminar tanpa antrian panjang. Analitik real-time kehadiran peserta.
+                    </p>
+                </div>
+
+                <!-- Benefit 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100 benefit-card group">
+                    <div class="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center text-pink-600 text-2xl mb-6 group-hover:scale-110 transition">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Pernikahan</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Kesan pertama yang elegan dengan layar sapa digital. Catat hadiah dan amplop digital secara aman.
+                    </p>
+                </div>
+
+                <!-- Benefit 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100 benefit-card group">
+                    <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 text-2xl mb-6 group-hover:scale-110 transition">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Bisnis & Kantor</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Sistem resepsionis digital untuk lobi kantor. Profesional, aman, dan data pengunjung tersimpan rapi.
+                    </p>
+                </div>
+
+                <!-- Benefit 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100 benefit-card group">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 text-2xl mb-6 group-hover:scale-110 transition">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Pendidikan</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Absensi siswa atau orang tua murid saat acara sekolah. Cepat, akurat, dan dapat diekspor ke Excel.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section (Based on Image) -->
+    <section id="fitur" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 section-header">
+                <span class="text-brand-600 font-bold tracking-wide uppercase text-sm">Fitur Unggulan</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">Teknologi Lengkap dalam Satu Genggaman</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="flex p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-lg transition duration-300 feature-item">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-500 text-xl">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800">Aplikasi Penerima Tamu</h4>
+                        <p class="text-sm text-slate-500 mt-2">Antarmuka user-friendly untuk petugas penerima tamu melakukan check-in cepat via HP/Tablet.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="flex p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-lg transition duration-300 feature-item">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 text-xl">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800">Layar Sapa (Welcome Screen)</h4>
+                        <p class="text-sm text-slate-500 mt-2">Tampilkan nama tamu secara otomatis di layar besar sesaat setelah QR code dipindai.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="flex p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-lg transition duration-300 feature-item">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-500 text-xl">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800">Food, Table & Souvenir</h4>
+                        <p class="text-sm text-slate-500 mt-2">Manajemen penukaran voucher makan, alokasi meja VIP, dan tracking pengambilan souvenir.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="flex p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-lg transition duration-300 feature-item">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 text-xl">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800">Selfie Check-in</h4>
+                        <p class="text-sm text-slate-500 mt-2">Fitur unik di mana tamu dapat berfoto saat registrasi untuk kenang-kenangan digital.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="flex p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-lg transition duration-300 feature-item">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-500 text-xl">
+                            <i class="fas fa-gifts"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800">Pencatatan Hadiah</h4>
+                        <p class="text-sm text-slate-500 mt-2">Database aman untuk mencatat amplop atau kado fisik yang diterima saat acara.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="flex p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-lg transition duration-300 feature-item">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 text-xl">
+                            <i class="fas fa-print"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800">Cetak QR Code Fisik</h4>
+                        <p class="text-sm text-slate-500 mt-2">Dukungan printer thermal untuk mencetak tiket atau stiker QR code langsung di lokasi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section (LocalStorage) -->
+    <section id="demo" class="py-20 bg-brand-600 relative overflow-hidden text-white">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6">Coba Simulasi Buku Tamu Sekarang</h2>
+                    <p class="text-blue-100 mb-8 text-lg">
+                        Rasakan kemudahan input data tamu. Data ini tersimpan di browser Anda (LocalStorage) untuk mendemonstrasikan kecepatan dan fungsi tanpa server (client-side).
+                    </p>
+                    
+                    <!-- Guest Form -->
+                    <div class="bg-white rounded-2xl p-6 shadow-2xl text-slate-800 transform transition hover:scale-105 duration-300">
+                        <h3 class="font-bold text-xl mb-4 border-b pb-2">Form Registrasi Tamu</h3>
+                        <form id="guestForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap</label>
+                                <input type="text" id="guestName" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" placeholder="Contoh: Budi Santoso">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Kategori Tamu</label>
+                                <select id="guestCategory" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
+                                    <option value="VIP">VIP</option>
+                                    <option value="Reguler">Reguler</option>
+                                    <option value="Keluarga">Keluarga</option>
+                                    <option value="Media">Media</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <label class="block text-sm font-medium text-slate-700">Jumlah Orang</label>
+                                <input type="number" id="guestPax" value="1" min="1" max="10" class="w-20 px-4 py-2 border border-slate-300 rounded-lg outline-none">
+                            </div>
+                            <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-lg shadow-md transition flex justify-center items-center gap-2">
+                                <i class="fas fa-check-circle"></i> Check-in Tamu
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Live Data Display -->
+                <div class="bg-brand-800 bg-opacity-50 backdrop-blur-sm rounded-2xl p-6 border border-brand-500/30 h-full min-h-[400px]">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-xl"><i class="fas fa-satellite-dish mr-2 animate-pulse text-green-400"></i> Live Monitor</h3>
+                        <button onclick="clearData()" class="text-xs bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white transition">Reset Data</button>
+                    </div>
+                    
+                    <div class="space-y-3 overflow-y-auto max-h-[350px] pr-2" id="guestList">
+                        <!-- Guest items will appear here -->
+                        <div class="text-center text-blue-200 py-10" id="emptyState">
+                            Belum ada tamu yang check-in.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AREA UNTUK SLOT IKLAN (Saat ini disembunyikan) -->
+    <!-- Lihat file adsense_setup.txt untuk mengaktifkan -->
+    <div id="adsense-slot-2" class="max-w-7xl mx-auto px-4 my-12"></div>
+
+    <!-- CTA Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6">Siap Mengubah Cara Anda Mengelola Tamu?</h2>
+            <p class="text-slate-600 mb-8 text-lg">Bergabunglah dengan ratusan Event Organizer dan Calon Pengantin yang telah mempercayakan datanya pada Guestra.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#" class="px-8 py-3 bg-slate-900 text-white font-bold rounded-lg shadow-lg hover:bg-slate-800 transition">
+                    Hubungi Sales
+                </a>
+                <a href="#" class="px-8 py-3 bg-white text-slate-900 border border-slate-300 font-bold rounded-lg hover:bg-slate-50 transition">
+                    Download Brosur
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800 pb-28 lg:pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4 text-white">
+                        <div class="w-8 h-8 bg-brand-600 rounded flex items-center justify-center font-bold">G</div>
+                        <span class="text-xl font-bold">Guestra</span>
+                    </div>
+                    <p class="text-sm text-slate-400 max-w-xs">
+                        Platform manajemen tamu digital terdepan di Indonesia. Solusi tepat, cepat, dan akurat untuk segala jenis acara Anda.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Produk</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-brand-500 transition">Fitur Utama</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Hardware (Printer)</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Harga</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">API Integrasi</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Perusahaan</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-brand-500 transition">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Karir</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
+                <p>&copy; 2024 Guestra Indonesia. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-brand-500"><i class="fab fa-instagram text-lg"></i></a>
+                    <a href="#" class="hover:text-brand-500"><i class="fab fa-linkedin text-lg"></i></a>
+                    <a href="#" class="hover:text-brand-500"><i class="fab fa-twitter text-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main Logic -->
+    <script src="assets/js/script.js" defer></script>
+</body>
+</html>
